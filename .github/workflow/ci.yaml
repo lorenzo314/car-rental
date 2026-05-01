@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  lint-and-test:
+    name: Lint, format, type-check, test
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------------------------------------------------
+      # 1. Checkout
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      # 2. Python setup
+      # -----------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      # -----------------------------------------------------------------------
+      # 3. Code quality
+      # -----------------------------------------------------------------------
+      - name: Lint — ruff
+        run: ruff check .
+
+      - name: Format check — black
+        run: black --check .
+
+      - name: SQL format check — sqlfluff
+        run: sqlfluff lint db/sql/schema.sql
+
+      - name: Type check — mypy
+        run: mypy app/
+
+      # -----------------------------------------------------------------------
+      # 4. Tests
+      # Uses SQLite in-memory — no MySQL service container required.
+      # Coverage gate: 80% minimum (enforced in pyproject.toml).
+      # -----------------------------------------------------------------------
+      - name: Run tests
+        env:
+          # Provide a minimal .env so config.py does not error on import.
+          # These values are used only by the test suite; no real DB is hit.
+          DB_HOST: localhost
+          DB_PORT: "3306"
+          DB_NAME: car_rental_test
+          DB_USER: test
+          DB_PASSWORD: test
+          APP_SECRET_KEY: ci-secret-not-for-production
+          RESEND_API_KEY: re_placeholder
+        run: pytest
+
+      # -----------------------------------------------------------------------
+      # 5. Upload coverage report as an artifact (visible in the Actions UI)
+      # -----------------------------------------------------------------------
+      - name: Upload coverage HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+          retention-days: 7
