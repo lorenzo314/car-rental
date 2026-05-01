@@ -42,8 +42,12 @@ class TestClientFactory:
     def test_returns_required_keys(self) -> None:
         data = client_factory()
         required = {
-            "last_name", "first_name", "country", "email",
-            "email_consent", "is_deleted",
+            "last_name",
+            "first_name",
+            "country",
+            "email",
+            "email_consent",
+            "is_deleted",
         }
         assert required <= data.keys()
 
@@ -96,8 +100,11 @@ class TestReservationFactory:
         start = date(2025, 1, 10)
         end = date(2025, 1, 15)
         data = reservation_factory(
-            vehicle_id=1, client_id=1, created_by=1,
-            start_date=start, end_date=end,
+            vehicle_id=1,
+            client_id=1,
+            created_by=1,
+            start_date=start,
+            end_date=end,
         )
         assert data["start_date"] == start
         assert data["end_date"] == end

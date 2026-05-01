@@ -63,6 +63,7 @@ from db.seeds.factories import (
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _clear(db: Session) -> None:
     """Delete all rows in dependency order (children before parents)."""
     print("  Clearing existing data...")
@@ -91,6 +92,7 @@ def _past_rental_dates() -> tuple[date, date]:
 # ---------------------------------------------------------------------------
 # Seed functions
 # ---------------------------------------------------------------------------
+
 
 def seed_users(db: Session, n_extra: int = 1) -> list[User]:
     """Create fixed admin + agent accounts, plus n_extra random agents."""
@@ -311,6 +313,7 @@ def seed_blacklist(
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def seed(
     n_users: int = 1,

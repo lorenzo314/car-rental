@@ -56,9 +56,7 @@ class ActiveRental(TimestampMixin, Base):
         nullable=False,
         comment="Agreed rate for this rental, EUR",
     )
-    status: Mapped[str] = mapped_column(
-        String(20), nullable=False, default="active"
-    )
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="active")
 
     # Relationships
     reservation: Mapped["Reservation | None"] = relationship(  # noqa: F821

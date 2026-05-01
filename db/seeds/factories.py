@@ -32,12 +32,13 @@ from datetime import date, timedelta
 from faker import Faker
 
 fake = Faker("fr_FR")  # French locale for realistic names and addresses
-Faker.seed(42)         # reproducible output across runs
+Faker.seed(42)  # reproducible output across runs
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _random_date(start: date, end: date) -> date:
     delta = (end - start).days
@@ -59,6 +60,7 @@ def _future_date(days_min: int = 1, days_max: int = 30) -> date:
 # ---------------------------------------------------------------------------
 # user
 # ---------------------------------------------------------------------------
+
 
 def user_factory(
     *,
@@ -189,6 +191,7 @@ def rented_vehicle_factory() -> dict:
 # reservation
 # ---------------------------------------------------------------------------
 
+
 def reservation_factory(
     *,
     vehicle_id: int,
@@ -213,6 +216,7 @@ def reservation_factory(
 # ---------------------------------------------------------------------------
 # active_rental
 # ---------------------------------------------------------------------------
+
 
 def active_rental_factory(
     *,
@@ -248,6 +252,7 @@ def active_rental_factory(
 # ---------------------------------------------------------------------------
 # rental_event payload
 # ---------------------------------------------------------------------------
+
 
 def rental_event_payload(
     *,
@@ -306,6 +311,7 @@ def rental_event_payload(
 # blacklist
 # ---------------------------------------------------------------------------
 
+
 def blacklist_factory(
     *,
     client_id: int,
@@ -315,17 +321,18 @@ def blacklist_factory(
     start = _past_date(years_ago_min=0, years_ago_max=2)
     return {
         "client_id": client_id,
-        "reason": random.choice([
-            "Vehicle returned with damage",
-            "Non-payment",
-            "Aggressive behaviour",
-            "Fraudulent documents",
-            "Repeated late returns",
-        ]),
+        "reason": random.choice(
+            [
+                "Vehicle returned with damage",
+                "Non-payment",
+                "Aggressive behaviour",
+                "Fraudulent documents",
+                "Repeated late returns",
+            ]
+        ),
         "date_start": start,
         "date_end": (
-            None if permanent
-            else start + timedelta(days=random.randint(30, 365))
+            None if permanent else start + timedelta(days=random.randint(30, 365))
         ),
         "added_by": added_by,
     }

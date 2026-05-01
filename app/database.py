@@ -22,9 +22,9 @@ class Base(DeclarativeBase):
 
 engine = create_engine(
     settings.db_url,
-    pool_pre_ping=True,     # detect stale connections
-    pool_recycle=3600,      # recycle connections after 1 h
-    echo=settings.debug,    # log SQL in development; silent in production
+    pool_pre_ping=True,  # detect stale connections
+    pool_recycle=3600,  # recycle connections after 1 h
+    echo=settings.debug,  # log SQL in development; silent in production
 )
 
 SessionLocal: sessionmaker[Session] = sessionmaker(

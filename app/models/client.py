@@ -47,15 +47,11 @@ class Client(TimestampMixin, Base):
     address_line: Mapped[str | None] = mapped_column(String(200), nullable=True)
     city: Mapped[str | None] = mapped_column(String(100), nullable=True)
     postal_code: Mapped[str | None] = mapped_column(String(10), nullable=True)
-    country: Mapped[str] = mapped_column(
-        String(50), nullable=False, default="France"
-    )
+    country: Mapped[str] = mapped_column(String(50), nullable=False, default="France")
     phone: Mapped[str | None] = mapped_column(String(20), nullable=True)
 
     # Foreign address
-    foreign_address_line: Mapped[str | None] = mapped_column(
-        String(200), nullable=True
-    )
+    foreign_address_line: Mapped[str | None] = mapped_column(String(200), nullable=True)
     foreign_city: Mapped[str | None] = mapped_column(String(100), nullable=True)
     foreign_country: Mapped[str | None] = mapped_column(String(50), nullable=True)
     foreign_phone: Mapped[str | None] = mapped_column(String(20), nullable=True)
@@ -82,9 +78,11 @@ class Client(TimestampMixin, Base):
     active_rentals: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
         back_populates="client", foreign_keys="ActiveRental.client_id"
     )
-    active_rentals_as_second_driver: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
-        back_populates="second_driver",
-        foreign_keys="ActiveRental.second_driver_id",
+    active_rentals_as_second_driver: Mapped[list["ActiveRental"]] = (
+        relationship(  # noqa: F821
+            back_populates="second_driver",
+            foreign_keys="ActiveRental.second_driver_id",
+        )
     )
     rental_archives: Mapped[list["RentalArchive"]] = relationship(  # noqa: F821
         back_populates="client"
@@ -98,7 +96,4 @@ class Client(TimestampMixin, Base):
         return f"{self.first_name} {self.last_name}"
 
     def __repr__(self) -> str:
-        return (
-            f"<Client id={self.id} name={self.full_name!r} "
-            f"email={self.email!r}>"
-        )
+        return f"<Client id={self.id} name={self.full_name!r} " f"email={self.email!r}>"

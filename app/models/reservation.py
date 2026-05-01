@@ -34,15 +34,9 @@ class Reservation(TimestampMixin, Base):
         comment="Rate locked at booking time, EUR",
     )
 
-    vehicle_id: Mapped[int] = mapped_column(
-        ForeignKey("vehicle.id"), nullable=False
-    )
-    client_id: Mapped[int] = mapped_column(
-        ForeignKey("client.id"), nullable=False
-    )
-    created_by: Mapped[int] = mapped_column(
-        ForeignKey("user.id"), nullable=False
-    )
+    vehicle_id: Mapped[int] = mapped_column(ForeignKey("vehicle.id"), nullable=False)
+    client_id: Mapped[int] = mapped_column(ForeignKey("client.id"), nullable=False)
+    created_by: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
 
     # Relationships
     vehicle: Mapped["Vehicle"] = relationship(  # noqa: F821

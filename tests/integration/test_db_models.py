@@ -181,7 +181,7 @@ class TestRentalArchivePersistence:
         self, db: Session, rental_archive: RentalArchive
     ) -> None:
         assert rental_archive.number_of_days == 4
-        assert rental_archive.total == 180.00   # 4 days × 45.00
+        assert rental_archive.total == 180.00  # 4 days × 45.00
 
     def test_event_relationship(
         self, db: Session, rental_archive: RentalArchive
@@ -209,26 +209,18 @@ class TestRentalArchivePersistence:
 
 
 class TestBlacklistPersistence:
-    def test_permanent_ban(
-        self, db: Session, client: Client, admin: User
-    ) -> None:
+    def test_permanent_ban(self, db: Session, client: Client, admin: User) -> None:
         entry = Blacklist(
-            **blacklist_factory(
-                client_id=client.id, added_by=admin.id, permanent=True
-            )
+            **blacklist_factory(client_id=client.id, added_by=admin.id, permanent=True)
         )
         db.add(entry)
         db.flush()
 
         assert entry.date_end is None
 
-    def test_temporary_ban(
-        self, db: Session, client: Client, admin: User
-    ) -> None:
+    def test_temporary_ban(self, db: Session, client: Client, admin: User) -> None:
         entry = Blacklist(
-            **blacklist_factory(
-                client_id=client.id, added_by=admin.id, permanent=False
-            )
+            **blacklist_factory(client_id=client.id, added_by=admin.id, permanent=False)
         )
         db.add(entry)
         db.flush()
@@ -239,9 +231,7 @@ class TestBlacklistPersistence:
     def test_client_relationship(
         self, db: Session, client: Client, admin: User
     ) -> None:
-        entry = Blacklist(
-            **blacklist_factory(client_id=client.id, added_by=admin.id)
-        )
+        entry = Blacklist(**blacklist_factory(client_id=client.id, added_by=admin.id))
         db.add(entry)
         db.flush()
         db.refresh(entry)

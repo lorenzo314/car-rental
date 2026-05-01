@@ -62,9 +62,7 @@ def upgrade() -> None:
         sa.Column("address_line", sa.String(200), nullable=True),
         sa.Column("city", sa.String(100), nullable=True),
         sa.Column("postal_code", sa.String(10), nullable=True),
-        sa.Column(
-            "country", sa.String(50), nullable=False, server_default="France"
-        ),
+        sa.Column("country", sa.String(50), nullable=False, server_default="France"),
         sa.Column("phone", sa.String(20), nullable=True),
         sa.Column("foreign_address_line", sa.String(200), nullable=True),
         sa.Column("foreign_city", sa.String(100), nullable=True),
@@ -103,9 +101,7 @@ def upgrade() -> None:
         sa.Column("spare_wheel", sa.Boolean, nullable=False, server_default="0"),
         sa.Column("fuel_level", sa.Integer, nullable=True),
         sa.Column("automatic", sa.Boolean, nullable=False, server_default="0"),
-        sa.Column(
-            "status", sa.String(20), nullable=False, server_default="available"
-        ),
+        sa.Column("status", sa.String(20), nullable=False, server_default="available"),
         sa.Column("price_per_day", sa.Numeric(10, 2), nullable=False),
         sa.Column("photo_url", sa.String(500), nullable=True),
         sa.Column("is_deleted", sa.Boolean, nullable=False, server_default="0"),
@@ -236,8 +232,8 @@ def upgrade() -> None:
             server_default=sa.text("CURRENT_TIMESTAMP"),
         ),
         sa.Column("recorded_by", sa.Integer, sa.ForeignKey("user.id"), nullable=False),
-        sa.Column("vehicle_id", sa.Integer, nullable=False),   # soft ref
-        sa.Column("client_id", sa.Integer, nullable=False),    # soft ref
+        sa.Column("vehicle_id", sa.Integer, nullable=False),  # soft ref
+        sa.Column("client_id", sa.Integer, nullable=False),  # soft ref
         sa.Column("payload", sa.JSON, nullable=False),
         sa.CheckConstraint(
             "event_type IN ('rental_closed', 'rental_cancelled', 'rental_modified')",
@@ -284,9 +280,7 @@ def upgrade() -> None:
     )
     op.create_index("idx_archive_client", "rental_archive", ["client_id"])
     op.create_index("idx_archive_vehicle", "rental_archive", ["vehicle_id"])
-    op.create_index(
-        "idx_archive_dates", "rental_archive", ["start_date", "end_date"]
-    )
+    op.create_index("idx_archive_dates", "rental_archive", ["start_date", "end_date"])
 
     # -----------------------------------------------------------------
     # blacklist

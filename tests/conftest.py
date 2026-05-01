@@ -75,6 +75,7 @@ def engine():
 # Database session — fresh transaction per test, rolled back after
 # ---------------------------------------------------------------------------
 
+
 @pytest.fixture
 def db(engine) -> Session:
     """Yield a session that rolls back after each test."""
@@ -93,6 +94,7 @@ def db(engine) -> Session:
 # ---------------------------------------------------------------------------
 # Persisted model fixtures
 # ---------------------------------------------------------------------------
+
 
 @pytest.fixture
 def agent(db: Session) -> User:
@@ -150,8 +152,8 @@ def rented_vehicle(db: Session) -> Vehicle:
 
 @pytest.fixture
 def active_rental(
-        db: Session, vehicle: Vehicle, client: Client, agent: User
-    ) -> ActiveRental:
+    db: Session, vehicle: Vehicle, client: Client, agent: User
+) -> ActiveRental:
     """An open rental linking the vehicle, client, and agent fixtures."""
     rental = ActiveRental(
         **active_rental_factory(

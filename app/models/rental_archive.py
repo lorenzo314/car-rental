@@ -31,9 +31,7 @@ class RentalArchive(TimestampMixin, Base):
     )
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    event_id: Mapped[int] = mapped_column(
-        ForeignKey("rental_event.id"), nullable=False
-    )
+    event_id: Mapped[int] = mapped_column(ForeignKey("rental_event.id"), nullable=False)
     reservation_id: Mapped[int | None] = mapped_column(
         ForeignKey("reservation.id"), nullable=True
     )

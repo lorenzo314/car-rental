@@ -57,9 +57,7 @@ class Vehicle(TimestampMixin, Base):
         comment="Fuel level percentage 0–100",
     )
     automatic: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    status: Mapped[str] = mapped_column(
-        String(20), nullable=False, default="available"
-    )
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="available")
     price_per_day: Mapped[float] = mapped_column(
         Numeric(10, 2),
         nullable=False,
