@@ -78,8 +78,8 @@ class Client(TimestampMixin, Base):
     active_rentals: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
         back_populates="client", foreign_keys="ActiveRental.client_id"
     )
-    active_rentals_as_second_driver: Mapped[list["ActiveRental"]] = (
-        relationship(  # noqa: F821
+    active_rentals_as_second_driver: Mapped[list["ActiveRental"]] = (  # noqa: F821
+        relationship(
             back_populates="second_driver",
             foreign_keys="ActiveRental.second_driver_id",
         )
