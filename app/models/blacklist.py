@@ -1,12 +1,21 @@
 """Blacklist model — clients refused service."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.client import Client
+    from app.models.user import User
+
+
 from datetime import date
 
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class Blacklist(TimestampMixin, Base):
@@ -39,12 +48,8 @@ class Blacklist(TimestampMixin, Base):
     added_by: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
 
     # Relationships
-    client: Mapped["Client"] = relationship(  # noqa: F821
-        back_populates="blacklist_entries"
-    )
-    added_by_user: Mapped["User"] = relationship(  # noqa: F821
-        back_populates="blacklist_entries"
-    )
+    client: Mapped[Client] = relationship(back_populates="blacklist_entries")
+    added_by_user: Mapped[User] = relationship(back_populates="blacklist_entries")
 
     def __repr__(self) -> str:
         return (

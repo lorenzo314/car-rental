@@ -1,12 +1,23 @@
 """Client model — people who rent vehicles."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.active_rental import ActiveRental
+    from app.models.blacklist import Blacklist
+    from app.models.rental_archive import RentalArchive
+    from app.models.reservation import Reservation
+
+
 from datetime import date, datetime
 
 from sqlalchemy import Boolean, Date, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class Client(TimestampMixin, Base):
@@ -72,24 +83,18 @@ class Client(TimestampMixin, Base):
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     # Relationships
-    reservations: Mapped[list["Reservation"]] = relationship(  # noqa: F821
+    reservations: Mapped[list[Reservation]] = relationship(
         back_populates="client", foreign_keys="Reservation.client_id"
     )
-    active_rentals: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
+    active_rentals: Mapped[list[ActiveRental]] = relationship(
         back_populates="client", foreign_keys="ActiveRental.client_id"
     )
-    active_rentals_as_second_driver: Mapped[list["ActiveRental"]] = (  # noqa: F821
-        relationship(
-            back_populates="second_driver",
-            foreign_keys="ActiveRental.second_driver_id",
-        )
+    active_rentals_as_second_driver: Mapped[list[ActiveRental]] = relationship(
+        back_populates="second_driver",
+        foreign_keys="ActiveRental.second_driver_id",
     )
-    rental_archives: Mapped[list["RentalArchive"]] = relationship(  # noqa: F821
-        back_populates="client"
-    )
-    blacklist_entries: Mapped[list["Blacklist"]] = relationship(  # noqa: F821
-        back_populates="client"
-    )
+    rental_archives: Mapped[list[RentalArchive]] = relationship(back_populates="client")
+    blacklist_entries: Mapped[list[Blacklist]] = relationship(back_populates="client")
 
     @property
     def full_name(self) -> str:

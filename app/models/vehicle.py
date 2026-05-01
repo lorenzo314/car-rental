@@ -1,12 +1,22 @@
 """Vehicle model — the rental fleet."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.active_rental import ActiveRental
+    from app.models.rental_archive import RentalArchive
+    from app.models.reservation import Reservation
+
+
 from datetime import datetime
 
 from sqlalchemy import Boolean, CheckConstraint, DateTime, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class Vehicle(TimestampMixin, Base):
@@ -70,13 +80,9 @@ class Vehicle(TimestampMixin, Base):
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     # Relationships
-    reservations: Mapped[list["Reservation"]] = relationship(  # noqa: F821
-        back_populates="vehicle"
-    )
-    active_rentals: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
-        back_populates="vehicle"
-    )
-    rental_archives: Mapped[list["RentalArchive"]] = relationship(  # noqa: F821
+    reservations: Mapped[list[Reservation]] = relationship(back_populates="vehicle")
+    active_rentals: Mapped[list[ActiveRental]] = relationship(back_populates="vehicle")
+    rental_archives: Mapped[list[RentalArchive]] = relationship(
         back_populates="vehicle"
     )
 

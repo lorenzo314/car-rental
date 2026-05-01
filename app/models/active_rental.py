@@ -1,12 +1,23 @@
 """ActiveRental model — a vehicle that is currently out."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.client import Client
+    from app.models.reservation import Reservation
+    from app.models.user import User
+    from app.models.vehicle import Vehicle
+
+
 from datetime import date
 
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class ActiveRental(TimestampMixin, Base):
@@ -59,22 +70,18 @@ class ActiveRental(TimestampMixin, Base):
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="active")
 
     # Relationships
-    reservation: Mapped["Reservation | None"] = relationship(  # noqa: F821
+    reservation: Mapped[Reservation | None] = relationship(
         back_populates="active_rental"
     )
-    vehicle: Mapped["Vehicle"] = relationship(  # noqa: F821
-        back_populates="active_rentals"
-    )
-    client: Mapped["Client"] = relationship(  # noqa: F821
+    vehicle: Mapped[Vehicle] = relationship(back_populates="active_rentals")
+    client: Mapped[Client] = relationship(
         back_populates="active_rentals", foreign_keys=[client_id]
     )
-    second_driver: Mapped["Client | None"] = relationship(  # noqa: F821
+    second_driver: Mapped[Client | None] = relationship(
         back_populates="active_rentals_as_second_driver",
         foreign_keys=[second_driver_id],
     )
-    opened_by_user: Mapped["User"] = relationship(  # noqa: F821
-        back_populates="active_rentals"
-    )
+    opened_by_user: Mapped[User] = relationship(back_populates="active_rentals")
 
     @property
     def number_of_days(self) -> int:

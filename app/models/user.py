@@ -1,10 +1,22 @@
 """User model — staff accounts."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.active_rental import ActiveRental
+    from app.models.blacklist import Blacklist
+    from app.models.rental_archive import RentalArchive
+    from app.models.rental_event import RentalEvent
+    from app.models.reservation import Reservation
+
+
 from sqlalchemy import Boolean, CheckConstraint, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class User(TimestampMixin, Base):
@@ -31,19 +43,19 @@ class User(TimestampMixin, Base):
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
 
     # Relationships
-    reservations: Mapped[list["Reservation"]] = relationship(  # noqa: F821
+    reservations: Mapped[list[Reservation]] = relationship(
         back_populates="created_by_user"
     )
-    active_rentals: Mapped[list["ActiveRental"]] = relationship(  # noqa: F821
+    active_rentals: Mapped[list[ActiveRental]] = relationship(
         back_populates="opened_by_user"
     )
-    rental_events: Mapped[list["RentalEvent"]] = relationship(  # noqa: F821
+    rental_events: Mapped[list[RentalEvent]] = relationship(
         back_populates="recorded_by_user"
     )
-    rental_archives: Mapped[list["RentalArchive"]] = relationship(  # noqa: F821
+    rental_archives: Mapped[list[RentalArchive]] = relationship(
         back_populates="closed_by_user"
     )
-    blacklist_entries: Mapped[list["Blacklist"]] = relationship(  # noqa: F821
+    blacklist_entries: Mapped[list[Blacklist]] = relationship(
         back_populates="added_by_user"
     )
 

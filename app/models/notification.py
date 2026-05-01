@@ -1,12 +1,20 @@
 """Notification model — outbound email audit trail."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.rental_archive import RentalArchive
+
+
 from datetime import datetime
 
 from sqlalchemy import CheckConstraint, DateTime, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class Notification(TimestampMixin, Base):
@@ -49,9 +57,7 @@ class Notification(TimestampMixin, Base):
     provider_msg_id: Mapped[str | None] = mapped_column(String(200), nullable=True)
 
     # Relationships
-    rental_archive: Mapped["RentalArchive"] = relationship(  # noqa: F821
-        back_populates="notifications"
-    )
+    rental_archive: Mapped[RentalArchive] = relationship(back_populates="notifications")
 
     def __repr__(self) -> str:
         return (

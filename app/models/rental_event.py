@@ -1,5 +1,14 @@
 """RentalEvent model — the immutable event log."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from app.models.rental_archive import RentalArchive
+    from app.models.user import User
+
+
 from datetime import datetime
 
 from sqlalchemy import JSON, CheckConstraint, DateTime, ForeignKey, Integer, String
@@ -91,15 +100,11 @@ class RentalEvent(Base):
     vehicle_id: Mapped[int] = mapped_column(Integer, nullable=False)
     client_id: Mapped[int] = mapped_column(Integer, nullable=False)
 
-    payload: Mapped[dict] = mapped_column(JSON, nullable=False)
+    payload: Mapped[dict[str, Any]] = mapped_column(JSON, nullable=False)
 
     # Relationships
-    recorded_by_user: Mapped["User"] = relationship(  # noqa: F821
-        back_populates="rental_events"
-    )
-    rental_archive: Mapped["RentalArchive | None"] = relationship(  # noqa: F821
-        back_populates="event"
-    )
+    recorded_by_user: Mapped[User] = relationship(back_populates="rental_events")
+    rental_archive: Mapped[RentalArchive | None] = relationship(back_populates="event")
 
     def __repr__(self) -> str:
         return (

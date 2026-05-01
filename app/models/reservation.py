@@ -1,12 +1,24 @@
 """Reservation model — optional pre-booking (intent only)."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.active_rental import ActiveRental
+    from app.models.client import Client
+    from app.models.rental_archive import RentalArchive
+    from app.models.user import User
+    from app.models.vehicle import Vehicle
+
+
 from datetime import date
 
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class Reservation(TimestampMixin, Base):
@@ -39,19 +51,15 @@ class Reservation(TimestampMixin, Base):
     created_by: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
 
     # Relationships
-    vehicle: Mapped["Vehicle"] = relationship(  # noqa: F821
-        back_populates="reservations"
-    )
-    client: Mapped["Client"] = relationship(  # noqa: F821
+    vehicle: Mapped[Vehicle] = relationship(back_populates="reservations")
+    client: Mapped[Client] = relationship(
         back_populates="reservations", foreign_keys=[client_id]
     )
-    created_by_user: Mapped["User"] = relationship(  # noqa: F821
-        back_populates="reservations"
-    )
-    active_rental: Mapped["ActiveRental | None"] = relationship(  # noqa: F821
+    created_by_user: Mapped[User] = relationship(back_populates="reservations")
+    active_rental: Mapped[ActiveRental | None] = relationship(
         back_populates="reservation"
     )
-    rental_archive: Mapped["RentalArchive | None"] = relationship(  # noqa: F821
+    rental_archive: Mapped[RentalArchive | None] = relationship(
         back_populates="reservation"
     )
 

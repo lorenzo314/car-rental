@@ -1,12 +1,25 @@
 """RentalArchive model — completed rentals."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.models.client import Client
+    from app.models.notification import Notification
+    from app.models.rental_event import RentalEvent
+    from app.models.reservation import Reservation
+    from app.models.user import User
+    from app.models.vehicle import Vehicle
+
+
 from datetime import date
 
 from sqlalchemy import CheckConstraint, Date, ForeignKey, Numeric
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
-from app.models.base import TimestampMixin
+from app.models.mixins import TimestampMixin
 
 
 class RentalArchive(TimestampMixin, Base):
@@ -47,22 +60,14 @@ class RentalArchive(TimestampMixin, Base):
     )
 
     # Relationships
-    event: Mapped["RentalEvent"] = relationship(  # noqa: F821
+    event: Mapped[RentalEvent] = relationship(back_populates="rental_archive")
+    reservation: Mapped[Reservation | None] = relationship(
         back_populates="rental_archive"
     )
-    reservation: Mapped["Reservation | None"] = relationship(  # noqa: F821
-        back_populates="rental_archive"
-    )
-    vehicle: Mapped["Vehicle"] = relationship(  # noqa: F821
-        back_populates="rental_archives"
-    )
-    client: Mapped["Client"] = relationship(  # noqa: F821
-        back_populates="rental_archives"
-    )
-    closed_by_user: Mapped["User"] = relationship(  # noqa: F821
-        back_populates="rental_archives"
-    )
-    notifications: Mapped[list["Notification"]] = relationship(  # noqa: F821
+    vehicle: Mapped[Vehicle] = relationship(back_populates="rental_archives")
+    client: Mapped[Client] = relationship(back_populates="rental_archives")
+    closed_by_user: Mapped[User] = relationship(back_populates="rental_archives")
+    notifications: Mapped[list[Notification]] = relationship(
         back_populates="rental_archive"
     )
 
