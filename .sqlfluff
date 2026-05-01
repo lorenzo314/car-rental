@@ -2,6 +2,9 @@
 dialect = mysql
 templater = raw
 max_line_length = 88
+# RF04/RF06 conflict on MySQL reserved words used as column names
+# (role, status, type). Disabling both rules is cleaner than renaming columns.
+exclude_rules = RF04,RF06
 
 # Indentation
 indent_unit = space
