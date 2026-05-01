@@ -55,7 +55,7 @@ class Settings(BaseSettings):
     default_country: str = "France"
 
     # -- Computed ----------------------------------------------------------
-    @computed_field
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def db_url(self) -> str:
         """SQLAlchemy connection string for MySQL."""
@@ -65,7 +65,7 @@ class Settings(BaseSettings):
             "?charset=utf8mb4"
         )
 
-    @computed_field
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def db_url_async(self) -> str:
         """Async SQLAlchemy connection string (aiomysql driver)."""
@@ -75,7 +75,7 @@ class Settings(BaseSettings):
             "?charset=utf8mb4"
         )
 
-    @computed_field
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def is_production(self) -> bool:
         return self.app_env == "production"
