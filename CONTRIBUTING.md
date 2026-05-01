@@ -9,10 +9,16 @@ git pull
 git checkout -b feat/your-feature-name
 
 # 2. Make changes, run checks locally before pushing
+
+# Python — format then lint
+black .
 ruff check .
-black --check .
 mypy app/
 pytest
+
+# SQL — format then lint (run whenever schema.sql is modified)
+sqlfluff fix db/sql/schema.sql --dialect mysql
+sqlfluff lint db/sql/schema.sql --dialect mysql
 
 # 3. Commit using conventional commits (see below)
 git add .
