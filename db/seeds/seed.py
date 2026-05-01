@@ -34,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from sqlalchemy.orm import Session
 
-from app.database import SessionLocal, engine
+from app.database import SessionLocal
 from app.models import (
     ActiveRental,
     Blacklist,
@@ -46,7 +46,6 @@ from app.models import (
     User,
     Vehicle,
 )
-from app.database import Base
 from db.seeds.factories import (
     active_rental_factory,
     admin_factory,
@@ -54,12 +53,11 @@ from db.seeds.factories import (
     blacklist_factory,
     client_factory,
     rental_event_payload,
-    reservation_factory,
     rented_vehicle_factory,
+    reservation_factory,
     user_factory,
     vehicle_factory,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -273,7 +271,7 @@ def seed_active_rentals(
     agent = next((u for u in users if u.role == "agent"), users[0])
     active = []
 
-    for i, vehicle in enumerate(rented[:n]):
+    for _i, vehicle in enumerate(rented[:n]):
         client = random.choice(clients)
         start = date.today() - timedelta(days=random.randint(1, 3))
         expected_end = date.today() + timedelta(days=random.randint(1, 5))

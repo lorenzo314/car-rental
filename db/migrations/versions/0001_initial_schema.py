@@ -5,7 +5,7 @@ Revises:     (none — first migration)
 Create Date: 2024-01-01 00:00:00
 """
 
-from typing import Sequence
+from collections.abc import Sequence
 
 import sqlalchemy as sa
 from alembic import op
@@ -143,7 +143,9 @@ def upgrade() -> None:
         sa.Column("start_date", sa.Date, nullable=False),
         sa.Column("end_date", sa.Date, nullable=False),
         sa.Column("price_per_day", sa.Numeric(10, 2), nullable=False),
-        sa.Column("vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False),
+        sa.Column(
+            "vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False
+        ),
         sa.Column("client_id", sa.Integer, sa.ForeignKey("client.id"), nullable=False),
         sa.Column("created_by", sa.Integer, sa.ForeignKey("user.id"), nullable=False),
         sa.Column(
@@ -178,7 +180,9 @@ def upgrade() -> None:
             sa.ForeignKey("reservation.id"),
             nullable=True,
         ),
-        sa.Column("vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False),
+        sa.Column(
+            "vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False
+        ),
         sa.Column("client_id", sa.Integer, sa.ForeignKey("client.id"), nullable=False),
         sa.Column(
             "second_driver_id",
@@ -256,7 +260,9 @@ def upgrade() -> None:
             sa.ForeignKey("reservation.id"),
             nullable=True,
         ),
-        sa.Column("vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False),
+        sa.Column(
+            "vehicle_id", sa.Integer, sa.ForeignKey("vehicle.id"), nullable=False
+        ),
         sa.Column("client_id", sa.Integer, sa.ForeignKey("client.id"), nullable=False),
         sa.Column("closed_by", sa.Integer, sa.ForeignKey("user.id"), nullable=False),
         sa.Column("start_date", sa.Date, nullable=False),

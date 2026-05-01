@@ -18,7 +18,6 @@ from app.models import (
     Client,
     Notification,
     RentalArchive,
-    RentalEvent,
     Reservation,
     User,
     Vehicle,
@@ -26,8 +25,6 @@ from app.models import (
 from db.seeds.factories import (
     active_rental_factory,
     blacklist_factory,
-    client_factory,
-    rental_event_payload,
     vehicle_factory,
 )
 

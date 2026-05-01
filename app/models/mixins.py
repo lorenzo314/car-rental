@@ -16,7 +16,7 @@ Usage:
 from datetime import datetime
 
 from sqlalchemy import DateTime, func
-from sqlalchemy.orm import DeclarativeBase, MappedColumn, mapped_column
+from sqlalchemy.orm import MappedColumn, mapped_column
 
 
 class TimestampMixin:

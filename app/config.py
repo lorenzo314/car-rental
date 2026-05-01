@@ -42,7 +42,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     app_host: str = "localhost"
     app_port: int = 8000
-    app_secret_key: str = "change_me_in_production"
+    app_secret_key: str = "change_me_in_production"  # noqa: S105
     debug: bool = True
 
     # -- Email (Resend) ----------------------------------------------------

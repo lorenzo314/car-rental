@@ -67,8 +67,6 @@ select = [
     "ANN",  # flake8-annotations (type hints)
 ]
 ignore = [
-    "ANN101",   # missing type annotation for self
-    "ANN102",   # missing type annotation for cls
     "S101",     # use of assert (needed in tests)
 ]
 

@@ -104,7 +104,9 @@ def client_factory(*, is_deleted: bool = False) -> dict:
         "last_name": fake.last_name().upper(),
         "first_name": fake.first_name(),
         "date_of_birth": dob,
-        "nationality": random.choice(["French", "German", "Spanish", "British", "Italian"]),
+        "nationality": random.choice(
+            ["French", "German", "Spanish", "British", "Italian"]
+        ),
         "national_id": fake.bothify("??######").upper(),
         "licence_number": fake.bothify("??######??").upper(),
         "licence_issued_on": licence_date,
@@ -321,6 +323,9 @@ def blacklist_factory(
             "Repeated late returns",
         ]),
         "date_start": start,
-        "date_end": None if permanent else (start + timedelta(days=random.randint(30, 365))),
+        "date_end": (
+            None if permanent
+            else start + timedelta(days=random.randint(30, 365))
+        ),
         "added_by": added_by,
     }

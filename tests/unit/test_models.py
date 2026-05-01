@@ -6,9 +6,7 @@ required.  They verify that computed properties are correct and that
 model constructors accept valid data.
 """
 
-from datetime import date, timedelta
-
-import pytest
+from datetime import date
 
 from app.models import Client, RentalArchive, Vehicle
 from db.seeds.factories import client_factory, vehicle_factory

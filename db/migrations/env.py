@@ -15,12 +15,12 @@ Importing ``app.models`` is sufficient to register all tables on
 in its ``__init__.py``.
 """
 
-import app.models  # noqa: F401 — registers all models on Base.metadata
 from logging.config import fileConfig
 
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+import app.models  # noqa: F401 — registers all models on Base.metadata
 from app.config import settings
 from app.database import Base
 

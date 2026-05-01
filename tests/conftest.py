@@ -80,8 +80,8 @@ def db(engine) -> Session:
     """Yield a session that rolls back after each test."""
     connection = engine.connect()
     transaction = connection.begin()
-    TestSession = sessionmaker(bind=connection, autocommit=False, autoflush=False)
-    session = TestSession()
+    test_session = sessionmaker(bind=connection, autocommit=False, autoflush=False)
+    session = test_session()
 
     yield session
 
@@ -149,7 +149,9 @@ def rented_vehicle(db: Session) -> Vehicle:
 
 
 @pytest.fixture
-def active_rental(db: Session, vehicle: Vehicle, client: Client, agent: User) -> ActiveRental:
+def active_rental(
+        db: Session, vehicle: Vehicle, client: Client, agent: User
+    ) -> ActiveRental:
     """An open rental linking the vehicle, client, and agent fixtures."""
     rental = ActiveRental(
         **active_rental_factory(
