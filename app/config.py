@@ -56,7 +56,7 @@ class Settings(BaseSettings):
 
     # -- Computed ----------------------------------------------------------
     @computed_field  # type: ignore[misc]
-    @property
+    @property  # type: ignore[prop-decorator]
     def db_url(self) -> str:
         """SQLAlchemy connection string for MySQL."""
         return (
@@ -66,7 +66,7 @@ class Settings(BaseSettings):
         )
 
     @computed_field  # type: ignore[misc]
-    @property
+    @property  # type: ignore[prop-decorator]
     def db_url_async(self) -> str:
         """Async SQLAlchemy connection string (aiomysql driver)."""
         return (
@@ -76,7 +76,7 @@ class Settings(BaseSettings):
         )
 
     @computed_field  # type: ignore[misc]
-    @property
+    @property  # type: ignore[prop-decorator]
     def is_production(self) -> bool:
         return self.app_env == "production"
 
